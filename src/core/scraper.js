@@ -1,9 +1,10 @@
 const puppeteer = require('puppeteer')
+const path = require("path");
 
 class Scrapper {
   is_scrapping = false;
 
-  constructor(folder_path = "snaps") {
+  constructor(folder_path = ".") {
     this.STORAGE_PATH = folder_path;
   }
 
@@ -15,7 +16,7 @@ class Scrapper {
       const page = await browser.newPage()
       await page.goto(URL)
   
-      const file_name = `${this.STORAGE_PATH}/${new Date().getTime()}-file`;
+      const file_name = path.join(this.STORAGE_PATH, `${new Date().getTime()}-file`);
 
       await page.screenshot({ path: `${file_name}.png` })
       await page.pdf({ path: `${file_name}.pdf` })

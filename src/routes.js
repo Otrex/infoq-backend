@@ -1,15 +1,14 @@
-const Scrapper = require("./scraper");
+const {scrapper} = require("./utils");
+const path = require("path");
+const { STORAGE_FOLDER_PATH } = require("./config");
 const router = require("express").Router();
-
-const STORAGE_FOLDER_PATH = "snaps";
-const scrapper = new Scrapper(STORAGE_FOLDER_PATH);
 
 router.get("/", (req, res) => res.send("Welcome to Scrapper"));
 
 router.get("/d/:file", async (req, res, next) => {
   try {
     const { file } = req.params;
-    return res.download(file, (err) => {
+    return res.download(path.join(STORAGE_FOLDER_PATH, file), (err) => {
       if (err) {
         res.status(411).json({
           error: true,
